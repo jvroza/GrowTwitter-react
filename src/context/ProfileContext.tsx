@@ -43,6 +43,7 @@ export function ProfileProvider({ children }: Readonly<ProfileProviderProps>) {
     }
 
     useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         loadProfile();
     }, []);
 

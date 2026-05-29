@@ -162,20 +162,15 @@ export function TweetProvider({ children }: Readonly<TweetProviderProps>) {
     }, []);
 
     const reply = useCallback(async (data: ICreateReply) => {
-        try {
-            const newReply = await createReply(data);
-            setTweets((prev) =>
-                prev.map((t) =>
-                    t.id === data.replyTo
-                        ? { ...t, replies: [...t.replies, newReply as unknown as IGetTweetResponse] }
-                        : t
-                )
-            );
-        } catch (error) {
-            console.log("Erro ao criar resposta", error);
-            throw error;
-        }
-    }, []);
+    try {
+        await createReply(data);
+        const combined = await fetchFeed(); 
+        setTweets(combined);
+    } catch (error) {
+        console.log("Erro ao criar resposta", error);
+        throw error;
+    }
+}, [fetchFeed]);
 
     const like = useCallback(async (data: ITweetId) => {
         try {

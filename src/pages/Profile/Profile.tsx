@@ -1,46 +1,33 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import * as S from "./styleProfile";
-
-const mockUser = {
-    username: "joaovitor",
-    name: "João Vitor",
-    imageUrl: "/assets/avatar.png",
-};
-
-const mockTweets = [
-    {
-        id: "1",
-        content: "Finalmente terminei as rotas do GrowTwitter 🚀",
-        likes: 14,
-        replies: [1, 2],
-        author: { name: "João Vitor", username: "joaovitor" },
-    },
-    {
-        id: "2",
-        content: "styled-components com transient props é vida. Nunca mais vou poluir o DOM.",
-        likes: 7,
-        replies: [],
-        author: { name: "João Vitor", username: "joaovitor" },
-    },
-    {
-        id: "3",
-        content: "vestTech M7 chegando, bora codar!",
-        likes: 21,
-        replies: [1],
-        author: { name: "João Vitor", username: "joaovitor" },
-    },
-];
+import { useProfile } from "../../hooks/useProfile";
 
 export function Profile() {
-    const profileUser = mockUser;
-    const tweets = mockTweets;
-    const deletingId: string | null = null;
+    const navigate = useNavigate();
+    const { profileUser, tweets, isLoading, deleteTweet } = useProfile();
+    const [deletingId, setDeletingId] = useState<string | null>(null);
+
+    if (isLoading) return <p>Carregando...</p>;
+
+    async function handleDelete(tweetId: string) {
+        if (deletingId) return;
+        try {
+            setDeletingId(tweetId);
+            await deleteTweet(tweetId);
+        } catch (error) {
+            console.log("Erro ao deletar tweet", error);
+        } finally {
+            setDeletingId(null);
+        }
+    }
 
     return (
         <S.Container>
             <S.TopBar>
-                <S.BackButton onClick={() => null}>←</S.BackButton>
+                <S.BackButton onClick={() => navigate(-1)}>←</S.BackButton>
                 <S.TopInfo>
-                    <S.TopName>Perfil de @{profileUser.username}</S.TopName>
+                    <S.TopName>Perfil de @{profileUser?.username}</S.TopName>
                     <S.TweetCount>{tweets.length} tweets</S.TweetCount>
                 </S.TopInfo>
             </S.TopBar>
@@ -50,12 +37,12 @@ export function Profile() {
             <S.ProfileSection>
                 <S.AvatarWrapper>
                     <S.Avatar
-                        src={profileUser.imageUrl}
+                        src={profileUser?.imageUrl ?? "/assets/avatar.png"}
                         alt="avatar"
                     />
                 </S.AvatarWrapper>
-                <S.UserName>{profileUser.name}</S.UserName>
-                <S.UserHandle>@{profileUser.username}</S.UserHandle>
+                <S.UserName>{profileUser?.name}</S.UserName>
+                <S.UserHandle>@{profileUser?.username}</S.UserHandle>
             </S.ProfileSection>
 
             <S.Divider />
@@ -63,7 +50,7 @@ export function Profile() {
             {tweets.map((tweet) => (
                 <S.TweetCard key={tweet.id}>
                     <S.TweetAvatar
-                        src={profileUser.imageUrl}
+                        src={profileUser?.imageUrl ?? "/assets/avatar.png"}
                         alt="avatar"
                     />
                     <S.TweetContent>
@@ -76,7 +63,7 @@ export function Profile() {
                             <S.ActionBtn>💬 {tweet.replies.length}</S.ActionBtn>
                             <S.ActionBtn>🤍 {tweet.likes}</S.ActionBtn>
                             <S.ActionBtn
-                                onClick={() => null}
+                                onClick={() => handleDelete(tweet.id)}
                                 disabled={deletingId === tweet.id}
                             >
                                 {deletingId === tweet.id ? "⏳" : "🗑️"}

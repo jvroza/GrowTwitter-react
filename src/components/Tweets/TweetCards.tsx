@@ -15,6 +15,9 @@ export function TweetCard({ tweet }: Readonly<TweetCardProps>) {
     const [replyContent, setReplyContent] = useState("");
     const [isSendingReply, setIsSendingReply] = useState(false);
 
+    const repliesArray = Array.isArray(tweet.replies) ? tweet.replies : [];
+    const likesCount = Array.isArray(tweet.likes) ? tweet.likes.length : 0;
+
     async function handleLike() {
         if (liked) {
             await removeLike({ tweetId: tweet.id });
@@ -65,10 +68,10 @@ export function TweetCard({ tweet }: Readonly<TweetCardProps>) {
                 <S.TweetText>{tweet.content}</S.TweetText>
                 <S.TweetActions>
                     <S.ActionBtn onClick={() => setShowReply(!showReply)}>
-                        💬 {tweet.replies.length}
+                        💬 {repliesArray.length}
                     </S.ActionBtn>
                     <S.ActionBtn onClick={handleLike}>
-                        {liked ? "❤️" : "🤍"} {tweet.likes}
+                        {liked ? "❤️" : "🤍"} {likesCount}
                     </S.ActionBtn>
                     <S.ActionBtn onClick={handleDelete} disabled={isDeleting}>
                         {isDeleting ? "⏳" : "🗑️"}
@@ -96,9 +99,9 @@ export function TweetCard({ tweet }: Readonly<TweetCardProps>) {
                     </S.ReplyBox>
                 )}
 
-                {tweet.replies.length > 0 && (
+                {repliesArray.length > 0 && (
                     <S.RepliesList>
-                        {tweet.replies.map((r) => (
+                        {repliesArray.map((r) => (
                             <S.ReplyItem key={r.id}>
                                 <S.ReplyAvatar
                                     src={r.author?.imageUrl ?? "/assets/avatar.png"}
