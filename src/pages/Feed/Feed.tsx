@@ -1,9 +1,11 @@
 
+import * as S from "./stylesFeed";
 
 export function Feed() {
+    
     return (
-        <div>
-            <h1>Feed</h1>
-        </div>
-    )
+        <S.Container>
+            <S.PageTitle>Página Inicial</S.PageTitle>
+        </S.Container>
+    );
 }

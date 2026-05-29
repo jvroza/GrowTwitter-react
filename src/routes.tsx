@@ -5,6 +5,7 @@ import { Register } from "./pages/Register/Register.tsx";
 import { Feed } from "./pages/Feed/Feed.tsx";
 import { UserList } from "./pages/UserList/UserList.tsx";
 import { Profile } from "./pages/Profile/Profile.tsx";
+import { Explore } from "./pages/Explore/Explore.tsx";
 
 
 export const routes = createBrowserRouter ([
@@ -35,6 +36,10 @@ export const routes = createBrowserRouter ([
             {
                 path: "profile",
                 element: <Profile />
+            },
+            {
+                path: "explore",
+                element:<Explore />
             },
             {
                 path: "userlist",
