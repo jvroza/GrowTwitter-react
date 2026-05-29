@@ -8,7 +8,6 @@ import { api } from "./api";
 
 
 // FAZ LOGIN
-
 export async function login (dadosUser: IAuthLogin): Promise<IAuthLoginResponse> {
     try {
 
@@ -22,7 +21,6 @@ export async function login (dadosUser: IAuthLogin): Promise<IAuthLoginResponse>
 }
 
 // REGISTRA UM NOVO USUARIO
-
 export async function register (dadosUser: IAuthRegister): Promise<IAuthRegisterResponse> {
     try {
         const response = await api.post<IAuthRegisterResponse>("/auth/register", dadosUser );

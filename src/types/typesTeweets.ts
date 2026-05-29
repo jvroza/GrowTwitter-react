@@ -27,7 +27,7 @@ export interface IGetTweetResponse {
     updatedAt: string;
     author: IUserBasic;
     likes: { author: IUserBasic; createdAt: string; updatedAt: string }[]; // ← array de objetos
-    replies: IGetTweetResponse[]; // ← replies completos
+    replies: IGetTweetResponse[];
 }
 
 export interface ITweetId {

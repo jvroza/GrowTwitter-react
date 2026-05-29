@@ -2,37 +2,42 @@ import { useAuth } from "../../hooks/useAuth.ts";
 import * as S from "./stylesLogin.ts";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { Loading } from "../../components/Loading/loading.tsx";
 
 export interface LoginProps {
     username: string;
     password: string;
 }
 
-export function Login () {
+export function Login() {
     const [formData, setFormData] = useState<LoginProps>({
         username: "",
         password: "",
-    })
+    });
+    const [isLoading, setIsLoading] = useState(false);
 
     const navigate = useNavigate();
-    const{ signIn } = useAuth()
+    const { signIn } = useAuth();
 
     const handleLogin = async () => {
         try {
+            setIsLoading(true);
             await signIn(formData);
             navigate("/feed");
-
         } catch (error: unknown) {
             if (error instanceof Error) {
                 alert(error.message);
             } else {
                 alert("Erro ao fazer login");
             }
+        } finally {
+            setIsLoading(false);
         }
     };
 
     return (
         <S.PageWrapper>
+            {isLoading && <Loading overlay />}
             <S.Card>
                 <S.LeftPanel>
                     <S.BrandTitle>Growtwitter</S.BrandTitle>
@@ -78,7 +83,9 @@ export function Login () {
                             />
                         </S.FieldGroup>
 
-                        <S.LoginButton type="submit">Entrar</S.LoginButton>
+                        <S.LoginButton type="submit" disabled={isLoading}>
+                            {isLoading ? "Entrando..." : "Entrar"}
+                        </S.LoginButton>
 
                         <S.RegisterText>
                             Não tem uma conta?{" "}
@@ -90,5 +97,5 @@ export function Login () {
                 </S.RightPanel>
             </S.Card>
         </S.PageWrapper>
-    )
+    );
 }

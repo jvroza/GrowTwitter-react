@@ -1,12 +1,14 @@
 import { useState } from "react";
 import * as S from "./stylesUserList";
 import { useUserList } from "../../hooks/useUserList";
+import { Loading } from "../../components/Loading/loading";
+
 
 export function UserList() {
     const { users, isLoading, follow, unfollow, isFollowing } = useUserList();
     const [loadingId, setLoadingId] = useState<string | null>(null);
 
-    if (isLoading) return <p>Carregando...</p>;
+    if (isLoading) return <Loading />;
 
     async function handleFollowToggle(userId: string) {
         if (loadingId) return;

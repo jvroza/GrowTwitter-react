@@ -11,7 +11,6 @@ export interface IUserId extends IUser {
 
 
 // TIPAGEM PARA REGISTRAR UM NOVO USUARIO:
-
 export interface IAuthRegister {
     name: string;
     username: string;
@@ -25,7 +24,6 @@ export interface IAuthRegisterResponse {
 }
 
 //TIPAGEM PARA FAZER LOGIN
-
 export interface IAuthLogin {
     username: string;
     password: string;

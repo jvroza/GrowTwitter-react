@@ -2,13 +2,14 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as S from "./styleProfile";
 import { useProfile } from "../../hooks/useProfile";
+import { Loading } from "../../components/Loading/loading";
 
 export function Profile() {
     const navigate = useNavigate();
     const { profileUser, tweets, isLoading, deleteTweet } = useProfile();
     const [deletingId, setDeletingId] = useState<string | null>(null);
 
-    if (isLoading) return <p>Carregando...</p>;
+    if (isLoading) return <Loading />;
 
     async function handleDelete(tweetId: string) {
         if (deletingId) return;
@@ -28,7 +29,7 @@ export function Profile() {
                 <S.BackButton onClick={() => navigate(-1)}>←</S.BackButton>
                 <S.TopInfo>
                     <S.TopName>Perfil de @{profileUser?.username}</S.TopName>
-                    <S.TweetCount>{tweets.length} tweets</S.TweetCount>
+                    <S.TweetCount>{Array.isArray(tweets) ? tweets.length : 0} tweets</S.TweetCount>
                 </S.TopInfo>
             </S.TopBar>
 
@@ -61,7 +62,7 @@ export function Profile() {
                         <S.TweetText>{tweet.content}</S.TweetText>
                         <S.TweetActions>
                             <S.ActionBtn>💬 {tweet.replies.length}</S.ActionBtn>
-                            <S.ActionBtn>🤍 {tweet.likes}</S.ActionBtn>
+                            <S.ActionBtn>🤍 {Array.isArray(tweet.likes) ? tweet.likes.length : 0}</S.ActionBtn>
                             <S.ActionBtn
                                 onClick={() => handleDelete(tweet.id)}
                                 disabled={deletingId === tweet.id}

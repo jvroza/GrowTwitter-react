@@ -1,8 +1,8 @@
-
 import { useState } from "react";
 import * as S from "./stylesRegister.ts";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth.ts";
+import { Loading } from "../../components/Loading/loading.tsx";
 
 interface RegisterProps {
     name: string;
@@ -12,13 +12,13 @@ interface RegisterProps {
 }
 
 export function Register() {
-
     const [formData, setFormData] = useState<RegisterProps>({
         name: "",
         username: "",
         password: "",
         imageUrl: "",
     });
+    const [isLoading, setIsLoading] = useState(false);
 
     const navigate = useNavigate();
     const { signUp } = useAuth();
@@ -29,29 +29,28 @@ export function Register() {
     }
 
     async function handleSubmit() {
-
         try {
-
+            setIsLoading(true);
             const payload = {
                 ...formData,
                 imageUrl: formData.imageUrl?.trim() || undefined,
             };
-
             await signUp(payload);
             navigate("/feed");
-
         } catch (error: unknown) {
             if (error instanceof Error) {
                 alert(error.message);
             } else {
                 alert("Erro ao criar conta");
             }
+        } finally {
+            setIsLoading(false);
         }
-
     }
 
     return (
         <S.PageWrapper>
+            {isLoading && <Loading overlay />}
             <S.Card>
                 <S.LeftPanel>
                     <S.BrandTitle>Growtwitter</S.BrandTitle>
@@ -118,7 +117,9 @@ export function Register() {
                         />
                     </S.FieldGroup>
 
-                    <S.RegisterButton onClick={handleSubmit}>Criar conta</S.RegisterButton>
+                    <S.RegisterButton onClick={handleSubmit} disabled={isLoading}>
+                        {isLoading ? "Criando conta..." : "Criar conta"}
+                    </S.RegisterButton>
 
                     <S.LoginLink>
                         Já tem uma conta?{" "}
@@ -130,4 +131,4 @@ export function Register() {
             </S.Card>
         </S.PageWrapper>
     );
-};
+}

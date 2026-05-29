@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { TweetCard } from "../../components/Tweets/TweetCards";
 import { useTweet } from "../../hooks/useTweet";
+import { Loading } from "../../components/Loading/loading";
 import * as S from "./stylesFeed";
 
 export function Feed() {
@@ -10,7 +11,7 @@ export function Feed() {
         refreshFeed();
     }, [refreshFeed]);
 
-    if (isLoading) return <p>Carregando...</p>;
+    if (isLoading) return <Loading />;
 
     return (
         <S.Container>
