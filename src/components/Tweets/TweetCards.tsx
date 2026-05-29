@@ -1,6 +1,7 @@
 import { useState } from "react";
 import * as S from "../../pages/Feed/stylesFeed.ts";
 import { useTweet } from "../../hooks/useTweet.ts";
+import { useAuth } from "../../hooks/useAuth.ts";
 import type { IGetTweetResponse } from "../../types/typesTeweets";
 
 interface TweetCardProps {
@@ -9,20 +10,29 @@ interface TweetCardProps {
 
 export function TweetCard({ tweet }: Readonly<TweetCardProps>) {
     const { like, removeLike, removeTweet, reply, refreshFeed } = useTweet();
-    const [liked, setLiked] = useState(false);
+    const { user } = useAuth();
+
+    const repliesArray = Array.isArray(tweet.replies) ? tweet.replies : [];
+    const likesArray = Array.isArray(tweet.likes) ? tweet.likes : [];
+
+    const alreadyLiked = likesArray.some((l) => l.author?.id === user?.id);
+    const [liked, setLiked] = useState(alreadyLiked);
+    const [likesCount, setLikesCount] = useState(likesArray.length);
+
+    const isOwner = tweet.author?.id === user?.id;
+
     const [isDeleting, setIsDeleting] = useState(false);
     const [showReply, setShowReply] = useState(false);
     const [replyContent, setReplyContent] = useState("");
     const [isSendingReply, setIsSendingReply] = useState(false);
 
-    const repliesArray = Array.isArray(tweet.replies) ? tweet.replies : [];
-    const likesCount = Array.isArray(tweet.likes) ? tweet.likes.length : 0;
-
     async function handleLike() {
         if (liked) {
             await removeLike({ tweetId: tweet.id });
+            setLikesCount((prev) => prev - 1);
         } else {
             await like({ tweetId: tweet.id });
+            setLikesCount((prev) => prev + 1);
         }
         setLiked(!liked);
     }
@@ -32,6 +42,7 @@ export function TweetCard({ tweet }: Readonly<TweetCardProps>) {
         try {
             setIsDeleting(true);
             await removeTweet({ tweetId: tweet.id });
+            await refreshFeed();
         } catch (error) {
             console.log("Erro ao deletar tweet", error);
         } finally {
@@ -73,9 +84,11 @@ export function TweetCard({ tweet }: Readonly<TweetCardProps>) {
                     <S.ActionBtn onClick={handleLike}>
                         {liked ? "❤️" : "🤍"} {likesCount}
                     </S.ActionBtn>
-                    <S.ActionBtn onClick={handleDelete} disabled={isDeleting}>
-                        {isDeleting ? "⏳" : "🗑️"}
-                    </S.ActionBtn>
+                    {isOwner && (
+                        <S.ActionBtn onClick={handleDelete} disabled={isDeleting}>
+                            {isDeleting ? "⏳" : "🗑️"}
+                        </S.ActionBtn>
+                    )}
                 </S.TweetActions>
 
                 {showReply && (
