@@ -1,11 +1,11 @@
 import { useContext } from "react";
-import { SearchContext } from "../context/UserListContext";
+import { UserListContext } from "../context/UserListContext";
 
-export function useSearch() {
-    const context = useContext(SearchContext);
+export function useUserList() {
+    const context = useContext(UserListContext);
 
     if (!context) {
-        throw new Error("useSearch deve ser usado dentro de um SearchProvider");
+        throw new Error("useUserList deve ser usado dentro de um UserListProvider");
     }
 
     return context;

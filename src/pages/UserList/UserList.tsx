@@ -1,9 +1,9 @@
 import { useState } from "react";
 import * as S from "./stylesUserList";
-import { useSearch } from "../../hooks/useUserList";
+import { useUserList } from "../../hooks/useUserList";
 
 export function UserList() {
-    const { users, isLoading, follow, unfollow, isFollowing } = useSearch();
+    const { users, isLoading, follow, unfollow, isFollowing } = useUserList();
     const [loadingId, setLoadingId] = useState<string | null>(null);
 
     if (isLoading) return <p>Carregando...</p>;

@@ -11,14 +11,14 @@ interface IUserListContextData {
     isFollowing: (userId: string) => boolean;
 }
 
-interface SearchProviderProps {
+interface UserListProviderProps {
     children: ReactNode;
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
-export const SearchContext = createContext<IUserListContextData>({} as IUserListContextData);
+export const UserListContext = createContext<IUserListContextData>({} as IUserListContextData);
 
-export function SearchProvider({ children }: Readonly<SearchProviderProps>) {
+export function UserListProvider({ children }: Readonly<UserListProviderProps>) {
 
     const [users, setUsers] = useState<IUser[]>([]);
     const [followersData, setFollowersData] = useState<IGetFollowers | null>(null);
@@ -90,8 +90,8 @@ export function SearchProvider({ children }: Readonly<SearchProviderProps>) {
     }), [users, followersData, isLoading]);
 
     return (
-        <SearchContext.Provider value={value}>
+        <UserListContext.Provider value={value}>
             {children}
-        </SearchContext.Provider>
+        </UserListContext.Provider>
     );
 }

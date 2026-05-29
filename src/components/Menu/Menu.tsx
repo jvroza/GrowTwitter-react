@@ -32,7 +32,7 @@ export const Menu = () => {
                         <Hash size={20} />
                         Explorar
                     </S.NavItem>
-                    <S.NavItem onClick={() => navigate("/search")}>
+                    <S.NavItem onClick={() => navigate("/userlist")}>
                         <Search size={20} />
                         Pesquisar
                     </S.NavItem>

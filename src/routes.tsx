@@ -30,19 +30,19 @@ export const routes = createBrowserRouter ([
                 // token e decide para onde redirecionar. Mas isso é pós-autenticação, não urgente agora.
             },
             {
-                path: "feed",
+                path: "/feed",
                 element: <Feed />
             },
             {
-                path: "profile",
+                path: "/profile",
                 element: <Profile />
             },
             {
-                path: "explore",
+                path: "/explore",
                 element:<Explore />
             },
             {
-                path: "userlist",
+                path: "/userlist",
                 element:<UserList />
             },
         ]
