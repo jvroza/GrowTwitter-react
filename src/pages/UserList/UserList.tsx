@@ -1,7 +1,7 @@
 import { useState } from "react";
 import * as S from "./stylesUserList";
 import { useUserList } from "../../hooks/useUserList";
-import { Loading } from "../../components/Loading/loading";
+import { Loading } from "../../components/Loading/loading.tsx";
 
 
 export function UserList() {

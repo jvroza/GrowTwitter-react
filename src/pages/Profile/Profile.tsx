@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as S from "./styleProfile";
 import { useProfile } from "../../hooks/useProfile";
-import { Loading } from "../../components/Loading/loading";
+import { Loading } from "../../components/Loading/loading.tsx";
 import { ImageIcon } from "lucide-react";
 
 type TabType = "tweets" | "respostas" | "midia" | "curtidas";

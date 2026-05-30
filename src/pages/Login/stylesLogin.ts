@@ -33,11 +33,6 @@ export const BrandTitle = styled.h1`
   align-items: center;
 `;
 
-export const BrandSubtitle = styled.p`
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.85);
-`;
-
 export const BrandDescription = styled.p`
   font-size: 14px;
   color: rgba(255, 255, 255, 0.9);

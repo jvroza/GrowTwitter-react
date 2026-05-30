@@ -54,7 +54,6 @@ export function Register() {
             <S.Card>
                 <S.LeftPanel>
                     <S.BrandTitle>Growtwitter</S.BrandTitle>
-                    <S.BrandSubtitle>Trabalho final do bloco intermediário</S.BrandSubtitle>
                     <S.BrandDescription>
                         O Growtwitter é a plataforma definitiva para todos os apaixonados por redes
                         sociais que buscam uma experiência familiar e poderosa, semelhante ao Twitter,

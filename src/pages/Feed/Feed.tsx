@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { TweetCard } from "../../components/Tweets/TweetCards";
 import { useTweet } from "../../hooks/useTweet";
-import { Loading } from "../../components/Loading/loading";
+import { Loading } from "../../components/Loading/loading.tsx";
 import * as S from "./stylesFeed";
 
 export function Feed() {
