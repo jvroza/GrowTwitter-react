@@ -11,7 +11,7 @@ export const Overlay = styled.div`
 `;
 
 export const Modal = styled.div`
-    background: white;
+    background: ${({ theme }) => theme.cardBackground};
     border-radius: 16px;
     padding: 24px;
     width: 100%;
@@ -19,6 +19,7 @@ export const Modal = styled.div`
     display: flex;
     flex-direction: column;
     gap: 16px;
+    border: 1px solid ${({ theme }) => theme.border};
 `;
 
 export const CloseButton = styled.button`
@@ -27,7 +28,7 @@ export const CloseButton = styled.button`
     border: none;
     font-size: 18px;
     cursor: pointer;
-    color: #555;
+    color: ${({ theme }) => theme.textSecondary};
 `;
 
 export const TextArea = styled.textarea`
@@ -38,11 +39,10 @@ export const TextArea = styled.textarea`
     font-size: 16px;
     resize: none;
     font-family: inherit;
-    color: #333;
+    color: ${({ theme }) => theme.text};
+    background: transparent;
 
-    &::placeholder {
-        color: #aaa;
-    }
+    &::placeholder { color: ${({ theme }) => theme.textSecondary}; }
 `;
 
 export const Footer = styled.div`
@@ -54,7 +54,7 @@ export const Footer = styled.div`
 
 export const CharCount = styled.span`
     font-size: 14px;
-    color: #aaa;
+    color: ${({ theme }) => theme.textSecondary};
 `;
 
 export const SubmitButton = styled.button<{ disabled: boolean }>`

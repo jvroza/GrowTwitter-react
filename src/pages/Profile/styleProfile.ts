@@ -12,6 +12,10 @@ export const TopBar = styled.div`
     gap: 16px;
     padding: 12px 16px;
     border-bottom: 1px solid ${({ theme }) => theme.border};
+    position: sticky;
+    top: 0;
+    background: ${({ theme }) => theme.background};
+    z-index: 10;
 `;
 
 export const BackButton = styled.button`
@@ -44,40 +48,119 @@ export const TweetCount = styled.span`
 
 export const Banner = styled.div`
     width: 100%;
-    height: 120px;
-    background: #1da1f2;
+    height: 160px;
+    background: ${({ theme }) => theme.backgroundSecondary};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
 `;
 
 export const ProfileSection = styled.div`
-    padding: 12px 16px 16px;
+    padding: 12px 16px 0;
     display: flex;
     flex-direction: column;
     gap: 4px;
 `;
 
 export const AvatarWrapper = styled.div`
-    margin-top: -40px;
-    margin-bottom: 8px;
+    margin-top: -52px;
+    margin-bottom: 12px;
+    position: relative;
+    z-index: 1;
+    width: fit-content; /* ← adiciona */
 `;
 
 export const Avatar = styled.img`
-    width: 72px;
-    height: 72px;
+    width: 100px;
+    height: 100px;
+    min-width: 100px;  /* ← adiciona */
+    min-height: 100px; /* ← adiciona */
     border-radius: 50%;
     border: 4px solid ${({ theme }) => theme.background};
     object-fit: cover;
-    background: #eee;
+    background: ${({ theme }) => theme.backgroundSecondary};
 `;
 
 export const UserName = styled.span`
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 700;
     color: ${({ theme }) => theme.text};
 `;
 
 export const UserHandle = styled.span`
-    font-size: 14px;
+    font-size: 15px;
     color: ${({ theme }) => theme.textSecondary};
+    margin-bottom: 12px;
+`;
+
+export const StatsRow = styled.div`
+    display: flex;
+    gap: 20px;
+    margin: 12px 0 4px;
+`;
+
+export const StatItem = styled.div`
+    display: flex;
+    gap: 4px;
+    align-items: baseline;
+    cursor: pointer;
+
+    &:hover span { text-decoration: underline; }
+`;
+
+export const StatCount = styled.span`
+    font-size: 15px;
+    font-weight: 700;
+    color: ${({ theme }) => theme.text};
+`;
+
+export const StatLabel = styled.span`
+    font-size: 15px;
+    color: ${({ theme }) => theme.textSecondary};
+`;
+
+export const TabsRow = styled.div`
+    display: flex;
+    border-bottom: 1px solid ${({ theme }) => theme.border};
+    margin-top: 4px;
+`;
+
+export const Tab = styled.button<{ $active: boolean }>`
+    flex: 1;
+    background: none;
+    border: none;
+    padding: 16px 0;
+    font-size: 15px;
+    font-weight: ${({ $active }) => ($active ? "700" : "400")};
+    color: ${({ $active, theme }) => ($active ? theme.text : theme.textSecondary)};
+    cursor: pointer;
+    border-bottom: ${({ $active }) => ($active ? "2px solid #1d9bf0" : "2px solid transparent")};
+    transition: background 0.2s;
+    font-family: inherit;
+
+    &:hover { background: ${({ theme }) => theme.hoverBackground}; }
+`;
+
+export const EmptyState = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 40px 32px;
+    max-width: 360px;
+`;
+
+export const EmptyTitle = styled.span`
+    font-size: 24px;
+    font-weight: 800;
+    color: ${({ theme }) => theme.text};
+    margin-bottom: 8px;
+`;
+
+export const EmptyText = styled.p`
+    font-size: 15px;
+    color: ${({ theme }) => theme.textSecondary};
+    line-height: 1.5;
 `;
 
 export const Divider = styled.div`
@@ -152,6 +235,7 @@ export const ActionBtn = styled.button`
     transition: color 0.2s;
 
     &:hover { color: #1da1f2; }
+    &:disabled { opacity: 0.5; cursor: not-allowed; }
 `;
 
 export const FollowButton = styled.button`
