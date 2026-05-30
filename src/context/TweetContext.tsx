@@ -206,7 +206,7 @@ export function TweetProvider({ children }: Readonly<TweetProviderProps>) {
 
     return (
         <TweetContext.Provider value={value}>
-            {children}
+            { children }
         </TweetContext.Provider>
     );
 }

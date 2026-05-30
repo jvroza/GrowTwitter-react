@@ -129,7 +129,7 @@ export function AuthProvider({ children }: Readonly<AuthProviderProps>) {
 
     return (
         <AuthContextData.Provider value={value}>
-            {children}
+            { children }
         </AuthContextData.Provider>
     );
 

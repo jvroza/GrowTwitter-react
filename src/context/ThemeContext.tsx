@@ -25,7 +25,7 @@ export function ThemeProvider({ children }: Readonly<{ children: ReactNode }>) {
 
     return (
         <ThemeContext.Provider value={value}>
-            {children}
+            { children }
         </ThemeContext.Provider>
     );
 }

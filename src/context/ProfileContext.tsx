@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState, useMemo, type ReactNode } from "react";
+import { createContext, useEffect, useState, useMemo, useCallback, type ReactNode } from "react";
 import { userByid, followers } from "../services/user";
 import { listTweetsId, delTweet } from "../services/tweet";
 import type { IUserId, IGetFollowers } from "../types/typesAuth";
@@ -10,6 +10,7 @@ interface IProfileContextData {
     followersData: IGetFollowers | null;
     isLoading: boolean;
     deleteTweet: (tweetId: string) => Promise<void>;
+    refreshProfile: () => Promise<void>; // ← adiciona
 }
 
 interface ProfileProviderProps {
@@ -26,7 +27,7 @@ export function ProfileProvider({ children }: Readonly<ProfileProviderProps>) {
     const [followersData, setFollowersData] = useState<IGetFollowers | null>(null);
     const [isLoading, setIsLoading] = useState(true);
 
-    async function loadProfile() {
+    const loadProfile = useCallback(async () => {
         try {
             const userData = await userByid();
             const tweetsData = await listTweetsId({ id: userData.id });
@@ -40,14 +41,29 @@ export function ProfileProvider({ children }: Readonly<ProfileProviderProps>) {
         } finally {
             setIsLoading(false);
         }
-    }
+    }, []);
 
+    // carrega ao montar
     useEffect(() => {
         // eslint-disable-next-line react-hooks/set-state-in-effect
         loadProfile();
-    }, []);
+    }, [loadProfile]);
 
-    async function deleteTweet(tweetId: string) {
+    // recarrega quando a aba volta ao foco
+    useEffect(() => {
+        async function handleFocus() {
+            try {
+                await loadProfile();
+            } catch (error) {
+                console.log("Erro ao recarregar perfil", error);
+            }
+        }
+
+        window.addEventListener("focus", handleFocus);
+        return () => window.removeEventListener("focus", handleFocus);
+    }, [loadProfile]);
+
+    const deleteTweet = useCallback(async (tweetId: string) => {
         try {
             await delTweet({ tweetId });
             setTweets((prev) => prev.filter((t) => t.id !== tweetId));
@@ -55,7 +71,7 @@ export function ProfileProvider({ children }: Readonly<ProfileProviderProps>) {
             console.log("Erro ao deletar tweet", error);
             throw error;
         }
-    }
+    }, []);
 
     const value = useMemo(() => ({
         profileUser,
@@ -63,7 +79,8 @@ export function ProfileProvider({ children }: Readonly<ProfileProviderProps>) {
         followersData,
         isLoading,
         deleteTweet,
-    }), [profileUser, tweets, followersData, isLoading]);
+        refreshProfile: loadProfile, // ← expõe o refresh
+    }), [profileUser, tweets, followersData, isLoading, deleteTweet, loadProfile]);
 
     return (
         <ProfileContext.Provider value={value}>

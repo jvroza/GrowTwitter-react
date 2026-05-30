@@ -1,17 +1,21 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import * as S from "./styleProfile";
 import { useProfile } from "../../hooks/useProfile";
-import { Loading } from "../../components/Loading/loading.tsx";
+import { Loading } from "../../components/Loading/Loading.tsx";
 import { ImageIcon } from "lucide-react";
 
 type TabType = "tweets" | "respostas" | "midia" | "curtidas";
 
 export function Profile() {
     const navigate = useNavigate();
-    const { profileUser, tweets, followersData, isLoading, deleteTweet } = useProfile();
+    const { profileUser, tweets, followersData, isLoading, deleteTweet, refreshProfile } = useProfile();
     const [deletingId, setDeletingId] = useState<string | null>(null);
     const [activeTab, setActiveTab] = useState<TabType>("tweets");
+
+    useEffect(() => {
+        refreshProfile();
+    }, [refreshProfile]);
 
     if (isLoading) return <Loading />;
 

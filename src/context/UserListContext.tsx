@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState, useMemo, type ReactNode } from "react";
+import { createContext, useEffect, useState, useMemo, useCallback, type ReactNode } from "react";
 import { user, newFollowe, delFollowe, followers } from "../services/user";
 import type { IUser, IGetFollowers } from "../types/typesAuth";
 
@@ -24,12 +24,12 @@ export function UserListProvider({ children }: Readonly<UserListProviderProps>) 
     const [followersData, setFollowersData] = useState<IGetFollowers | null>(null);
     const [isLoading, setIsLoading] = useState(true);
 
-    const storedUser = localStorage.getItem("user");
-    const loggedUserId = storedUser ? JSON.parse(storedUser).id : null;
-
     useEffect(() => {
         async function loadUsers() {
             try {
+                const storedUser = localStorage.getItem("user");
+                const loggedUserId = storedUser ? JSON.parse(storedUser).id : null;
+
                 const [usersResponse, followersResult] = await Promise.all([
                     user(),
                     followers(),
@@ -53,12 +53,12 @@ export function UserListProvider({ children }: Readonly<UserListProviderProps>) 
         loadUsers();
     }, []);
 
-    function isFollowing(userId: string): boolean {
+    const isFollowing = useCallback((userId: string): boolean => {
         if (!followersData?.following) return false;
         return followersData.following.some((f) => f.id === userId);
-    }
+    }, [followersData]);
 
-    async function follow(userId: string) {
+    const follow = useCallback(async (userId: string) => {
         try {
             await newFollowe({ userId });
             const followersResult = await followers();
@@ -67,9 +67,9 @@ export function UserListProvider({ children }: Readonly<UserListProviderProps>) 
             console.log("Erro ao seguir usuário", error);
             throw error;
         }
-    }
+    }, []);
 
-    async function unfollow(userId: string) {
+    const unfollow = useCallback(async (userId: string) => {
         try {
             await delFollowe({ userId });
             const followersResult = await followers();
@@ -78,7 +78,7 @@ export function UserListProvider({ children }: Readonly<UserListProviderProps>) 
             console.log("Erro ao deixar de seguir", error);
             throw error;
         }
-    }
+    }, []);
 
     const value = useMemo(() => ({
         users,
@@ -87,7 +87,7 @@ export function UserListProvider({ children }: Readonly<UserListProviderProps>) 
         follow,
         unfollow,
         isFollowing,
-    }), [users, followersData, isLoading]);
+    }), [users, followersData, isLoading, follow, unfollow, isFollowing]);
 
     return (
         <UserListContext.Provider value={value}>
