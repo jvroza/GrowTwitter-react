@@ -3,24 +3,26 @@ import styled from "styled-components";
 export const Container = styled.div`
     display: flex;
     flex-direction: column;
+    background: ${({ theme }) => theme.background};
 `;
 
 export const PageTitle = styled.h1`
     font-size: 20px;
     font-weight: 700;
-    color: #333;
+    color: ${({ theme }) => theme.text};
     padding: 16px;
-    border-bottom: 1px solid #e6e6e6;
+    border-bottom: 1px solid ${({ theme }) => theme.border};
 `;
 
 export const TweetCard = styled.div`
     display: flex;
     gap: 12px;
     padding: 16px;
-    border-bottom: 1px solid #e6e6e6;
+    border-bottom: 1px solid ${({ theme }) => theme.border};
+    background: ${({ theme }) => theme.background};
 
     &:hover {
-        background: #fafafa;
+        background: ${({ theme }) => theme.hoverBackground};
     }
 `;
 
@@ -48,17 +50,17 @@ export const TweetHeader = styled.div`
 export const TweetUser = styled.span`
     font-weight: 700;
     font-size: 15px;
-    color: #333;
+    color: ${({ theme }) => theme.text};
 `;
 
 export const TweetHandle = styled.span`
     font-size: 14px;
-    color: #888;
+    color: ${({ theme }) => theme.textSecondary};
 `;
 
 export const TweetText = styled.p`
     font-size: 15px;
-    color: #333;
+    color: ${({ theme }) => theme.text};
     line-height: 1.5;
     margin: 0;
 `;
@@ -72,7 +74,7 @@ export const TweetActions = styled.div`
 export const ActionBtn = styled.button`
     background: none;
     border: none;
-    color: #888;
+    color: ${({ theme }) => theme.textSecondary};
     cursor: pointer;
     font-size: 14px;
     display: flex;
@@ -82,14 +84,8 @@ export const ActionBtn = styled.button`
     transition: color 0.2s;
     font-family: inherit;
 
-    &:hover {
-        color: #1da1f2;
-    }
-
-    &:disabled {
-        cursor: not-allowed;
-        opacity: 0.5;
-    }
+    &:hover { color: #1da1f2; }
+    &:disabled { cursor: not-allowed; opacity: 0.5; }
 `;
 
 export const ReplyBox = styled.div`
@@ -98,9 +94,9 @@ export const ReplyBox = styled.div`
     gap: 8px;
     margin-top: 8px;
     padding: 12px;
-    background: #f9f9f9;
+    background: ${({ theme }) => theme.backgroundSecondary};
     border-radius: 12px;
-    border: 1px solid #e6e6e6;
+    border: 1px solid ${({ theme }) => theme.border};
 `;
 
 export const ReplyInput = styled.textarea`
@@ -112,15 +108,10 @@ export const ReplyInput = styled.textarea`
     font-size: 14px;
     resize: none;
     font-family: inherit;
-    color: #333;
+    color: ${({ theme }) => theme.text};
 
-    &::placeholder {
-        color: #aaa;
-    }
-
-    &:disabled {
-        opacity: 0.6;
-    }
+    &::placeholder { color: ${({ theme }) => theme.textSecondary}; }
+    &:disabled { opacity: 0.6; }
 `;
 
 export const ReplyActions = styled.div`
@@ -132,7 +123,7 @@ export const ReplyActions = styled.div`
 
 export const ReplyCount = styled.span`
     font-size: 13px;
-    color: #aaa;
+    color: ${({ theme }) => theme.textSecondary};
 `;
 
 export const ReplyButton = styled.button`
@@ -146,14 +137,8 @@ export const ReplyButton = styled.button`
     cursor: pointer;
     font-family: inherit;
 
-    &:hover {
-        background: #1a91da;
-    }
-
-    &:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-    }
+    &:hover { background: #1a91da; }
+    &:disabled { opacity: 0.5; cursor: not-allowed; }
 `;
 
 export const RepliesList = styled.div`
@@ -162,7 +147,7 @@ export const RepliesList = styled.div`
     gap: 8px;
     margin-top: 8px;
     padding-left: 8px;
-    border-left: 2px solid #e6e6e6;
+    border-left: 2px solid ${({ theme }) => theme.border};
 `;
 
 export const ReplyItem = styled.div`

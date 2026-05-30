@@ -3,14 +3,15 @@ import styled from "styled-components";
 export const Container = styled.div`
     display: flex;
     flex-direction: column;
+    background: ${({ theme }) => theme.background};
 `;
 
 export const PageTitle = styled.h1`
     font-size: 20px;
     font-weight: 700;
-    color: #333;
+    color: ${({ theme }) => theme.text};
     padding: 16px;
-    border-bottom: 1px solid #e6e6e6;
+    border-bottom: 1px solid ${({ theme }) => theme.border};
 `;
 
 export const UserCard = styled.div`
@@ -18,11 +19,9 @@ export const UserCard = styled.div`
     align-items: center;
     gap: 12px;
     padding: 14px 16px;
-    border-bottom: 1px solid #e6e6e6;
+    border-bottom: 1px solid ${({ theme }) => theme.border};
 
-    &:hover {
-        background: #fafafa;
-    }
+    &:hover { background: ${({ theme }) => theme.hoverBackground}; }
 `;
 
 export const UserAvatar = styled.img`
@@ -41,18 +40,18 @@ export const UserInfo = styled.div`
 export const UserName = styled.span`
     font-size: 15px;
     font-weight: 700;
-    color: #333;
+    color: ${({ theme }) => theme.text};
 `;
 
 export const UserHandle = styled.span`
     font-size: 14px;
-    color: #888;
+    color: ${({ theme }) => theme.textSecondary};
 `;
 
 export const FollowButton = styled.button<{ $following: boolean }>`
-    background: ${({ $following }) => ($following ? "white" : "#1d9bf0")};
-    color: ${({ $following }) => ($following ? "#333" : "white")};
-    border: ${({ $following }) => ($following ? "1px solid #ccc" : "none")};
+    background: ${({ $following }) => ($following ? "transparent" : "#1d9bf0")};
+    color: ${({ $following, theme }) => ($following ? theme.text : "white")};
+    border: ${({ $following, theme }) => ($following ? `1px solid ${theme.border}` : "none")};
     border-radius: 20px;
     padding: 8px 16px;
     font-size: 14px;
@@ -60,6 +59,6 @@ export const FollowButton = styled.button<{ $following: boolean }>`
     cursor: pointer;
 
     &:hover {
-        background: ${({ $following }) => ($following ? "#f5f5f5" : "#1a8cd8")};
+        background: ${({ $following, theme }) => ($following ? theme.hoverBackground : "#1a8cd8")};
     }
 `;

@@ -1,61 +1,55 @@
 import styled from "styled-components";
 
 export const Container = styled.aside`
-  width: 300px;
-  padding: 16px;
+    width: 300px;
+    padding: 16px;
+    background: ${({ theme }) => theme.background};
 `;
 
 export const Panel = styled.div`
-  background: #f7f7f7;
-  border-radius: 12px;
-  padding: 16px;
+    background: ${({ theme }) => theme.backgroundSecondary};
+    border-radius: 12px;
+    padding: 16px;
 `;
 
 export const PanelTitle = styled.h2`
-  font-size: 18px;
-  font-weight: 700;
-  color: #333;
-  margin-bottom: 16px;
+    font-size: 18px;
+    font-weight: 700;
+    color: ${({ theme }) => theme.text};
+    margin-bottom: 16px;
 `;
 
 export const TrendItem = styled.div`
-  padding: 10px 0;
-  border-bottom: 1px solid #e6e6e6;
-  cursor: pointer;
+    padding: 10px 0;
+    border-bottom: 1px solid ${({ theme }) => theme.border};
+    cursor: pointer;
 
-  &:last-of-type {
-    border-bottom: none;
-  }
-
-  &:hover {
-    opacity: 0.8;
-  }
+    &:last-of-type { border-bottom: none; }
+    &:hover { opacity: 0.8; }
 `;
 
 export const TrendCategory = styled.span`
-  display: block;
-  font-size: 12px;
-  color: #888;
+    display: block;
+    font-size: 12px;
+    color: ${({ theme }) => theme.textSecondary};
 `;
 
 export const TrendTitle = styled.span`
-  display: block;
-  font-size: 15px;
-  font-weight: 700;
-  color: #333;
-  margin-top: 2px;
+    display: block;
+    font-size: 15px;
+    font-weight: 700;
+    color: ${({ theme }) => theme.text};
+    margin-top: 2px;
 `;
 
 export const ShowMore = styled.button`
-  background: none;
-  border: none;
-  color: #1da1f2;
-  cursor: pointer;
-  font-size: 14px;
-  margin-top: 12px;
-  padding: 0;
+    background: none;
+    border: none;
+    color: #1da1f2;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 12px;
+    padding: 0;
 
-  &:hover {
-    text-decoration: underline;
-  }
+    &:hover { text-decoration: underline; }
 `;

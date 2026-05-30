@@ -5,6 +5,8 @@ import { Home, Hash, User, Search } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
 import { TweetModal } from "../Tweets/TweetModal.tsx";
 import logoImg from "../../assets/logo.png";
+import { useTheme } from "../../hooks/useTheme";
+import { Moon, Sun } from "lucide-react";
 
 export const Menu = () => {
     const navigate = useNavigate();
@@ -15,6 +17,8 @@ export const Menu = () => {
         await signOut();
         navigate("/login");
     };
+
+    const { isDark, toggleTheme } = useTheme();
 
     return (
         <S.Container>
@@ -45,6 +49,10 @@ export const Menu = () => {
                 <S.TweetButton onClick={() => setShowModal(true)}>
                     Tweetar
                 </S.TweetButton>
+                <S.ThemeButton onClick={toggleTheme}>
+                    {isDark ? <Sun size={18} /> : <Moon size={18} />}
+                    {isDark ? "Modo claro" : "Modo escuro"}
+                </S.ThemeButton>
             </S.TopSection>
 
             <S.BottomSection>
