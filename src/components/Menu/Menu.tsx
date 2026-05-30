@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { Home, Hash, User, Search } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
 import { TweetModal } from "../Tweets/TweetModal.tsx";
-import logoImg from "../../assets/logo.png";
+import logoDark from "../../assets/logoDark.svg";
+import logoLight from "../../assets/logoLight.svg";
 import { useTheme } from "../../hooks/useTheme";
 import { Moon, Sun } from "lucide-react";
 
@@ -24,7 +25,7 @@ export const Menu = () => {
         <S.Container>
             <S.TopSection>
                 <S.Logo onClick={() => navigate("/feed")}>
-                    <S.LogoImage src={logoImg} alt="growtweet" />
+                    <S.LogoImage src={isDark? logoDark : logoLight} alt="growtweet" />
                 </S.Logo>
 
                 <S.NavList>
