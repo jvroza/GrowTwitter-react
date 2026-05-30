@@ -1,6 +1,6 @@
-import type {IAuthLogin, IAuthRegister, IUser} from "../types/typesAuth.ts";
+import type { IAuthLogin, IAuthRegister, IUser } from "../types/typesAuth.ts";
 import { createContext, type ReactNode, useEffect, useState, useMemo } from "react";
-import {login, register} from "../services/login.ts";
+import { login, register } from "../services/login.ts";
 import { api } from "../services/api";
 
 interface IAuthContextData {

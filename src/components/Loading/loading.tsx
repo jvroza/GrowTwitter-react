@@ -4,7 +4,7 @@ interface LoadingProps {
     overlay?: boolean;
 }
 
-export function Loading({ overlay = false }: Readonly<LoadingProps>) {
+export function Loading ({ overlay = false }: Readonly<LoadingProps>) {
     if (overlay) {
         return (
             <S.FullOverlay>

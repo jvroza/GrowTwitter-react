@@ -2,7 +2,7 @@ import { useState } from "react";
 import * as S from "./stylesRegister.ts";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth.ts";
-import { Loading } from "../../components/Loading/loading.tsx";
+import { Loading } from "../../components/Loading/Loading.tsx";
 
 interface RegisterProps {
     name: string;

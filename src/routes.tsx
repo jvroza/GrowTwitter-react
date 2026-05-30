@@ -6,6 +6,7 @@ import { Feed } from "./pages/Feed/Feed.tsx";
 import { UserList } from "./pages/UserList/UserList.tsx";
 import { Profile } from "./pages/Profile/Profile.tsx";
 import { Explore } from "./pages/Explore/Explore.tsx";
+import { ProtectedRoutes } from "./components/Protected/ProtectedRoutes.tsx";
 
 
 export const routes = createBrowserRouter ([
@@ -20,14 +21,15 @@ export const routes = createBrowserRouter ([
     },
     {
         path: "/",
-        element:<LayoutOutlet />,
+        element:(
+            <ProtectedRoutes>
+                <LayoutOutlet />
+            </ProtectedRoutes>
+        ),
         children: [
             {
                 index: true,
-                element: <Navigate to= "/login" replace /> // O redirecionamento do index e do 404 sempre vai para /login, 
-                // mesmo se o usuário já estiver autenticado. Quando você implementar autenticação, vale trocar 
-                // o <Navigate to="/login" /> por um componente de guarda — algo como <RequireAuth /> que verifica o 
-                // token e decide para onde redirecionar. Mas isso é pós-autenticação, não urgente agora.
+                element: <Navigate to= "/login" replace />
             },
             {
                 path: "/feed",

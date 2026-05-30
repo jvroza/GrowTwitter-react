@@ -2,7 +2,7 @@ import { useAuth } from "../../hooks/useAuth.ts";
 import * as S from "./stylesLogin.ts";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { Loading } from "../../components/Loading/loading.tsx";
+import { Loading } from "../../components/Loading/Loading.tsx";
 
 export interface LoginProps {
     username: string;
@@ -13,7 +13,7 @@ export function Login() {
     const [formData, setFormData] = useState<LoginProps>({
         username: "",
         password: "",
-    });
+    })
     const [isLoading, setIsLoading] = useState(false);
 
     const navigate = useNavigate();
@@ -33,7 +33,7 @@ export function Login() {
         } finally {
             setIsLoading(false);
         }
-    };
+    }
 
     return (
         <S.PageWrapper>
@@ -94,5 +94,5 @@ export function Login() {
                 </S.RightPanel>
             </S.Card>
         </S.PageWrapper>
-    );
-}
+    )
+};

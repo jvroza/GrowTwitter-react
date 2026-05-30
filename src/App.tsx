@@ -12,10 +12,12 @@ function ThemedApp() {
     const theme = isDark ? darkTheme : lightTheme;
 
     return (
-        <StyledThemeProvider theme={theme}>
-            <GlobalStyle theme={theme} />
-            <RouterProvider router={routes} />
-        </StyledThemeProvider>
+        <AuthProvider>
+            <StyledThemeProvider theme={theme}>
+                <GlobalStyle theme={theme} />
+                <RouterProvider router={routes} />
+            </StyledThemeProvider>
+        </AuthProvider>
     );
 }
 

@@ -5,6 +5,7 @@ interface IThemeContextData {
     toggleTheme: () => void;
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const ThemeContext = createContext<IThemeContextData>({} as IThemeContextData);
 
 export function ThemeProvider({ children }: Readonly<{ children: ReactNode }>) {

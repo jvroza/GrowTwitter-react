@@ -6,7 +6,8 @@ import { UserListProvider } from "../../context/UserListContext.tsx";
 import { TweetProvider } from "../../context/TweetContext.tsx";
 import { ProfileProvider } from "../../context/ProfileContext.tsx";
 
-export function LayoutOutlet() {
+export function LayoutOutlet () {
+
     return (
         <TweetProvider>
             <UserListProvider>
@@ -22,4 +23,5 @@ export function LayoutOutlet() {
             </UserListProvider>
         </TweetProvider>
     )
-}
+
+};

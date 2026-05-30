@@ -20,5 +20,6 @@ export function Feed() {
                 <TweetCard key={tweet.id} tweet={tweet} />
             ))}
         </S.Container>
-    );
-}
+    )
+
+};

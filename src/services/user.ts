@@ -3,7 +3,6 @@ import { api } from "./api";
 
 
 // BUSCA LISTA DE USUARIOS.
-
 export async function user (): Promise<IUser[]> {
 
     try {
