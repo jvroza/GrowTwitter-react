@@ -10,7 +10,7 @@ interface IProfileContextData {
     followersData: IGetFollowers | null;
     isLoading: boolean;
     deleteTweet: (tweetId: string) => Promise<void>;
-    refreshProfile: () => Promise<void>; // ← adiciona
+    refreshProfile: () => Promise<void>;
 }
 
 interface ProfileProviderProps {
@@ -43,13 +43,11 @@ export function ProfileProvider({ children }: Readonly<ProfileProviderProps>) {
         }
     }, []);
 
-    // carrega ao montar
     useEffect(() => {
         // eslint-disable-next-line react-hooks/set-state-in-effect
         loadProfile();
     }, [loadProfile]);
 
-    // recarrega quando a aba volta ao foco
     useEffect(() => {
         async function handleFocus() {
             try {
@@ -79,7 +77,7 @@ export function ProfileProvider({ children }: Readonly<ProfileProviderProps>) {
         followersData,
         isLoading,
         deleteTweet,
-        refreshProfile: loadProfile, // ← expõe o refresh
+        refreshProfile: loadProfile,
     }), [profileUser, tweets, followersData, isLoading, deleteTweet, loadProfile]);
 
     return (

@@ -53,10 +53,8 @@ export function AuthProvider({ children }: Readonly<AuthProviderProps>) {
                 return;
             }
 
-            // Seta o token no Axios ANTES de fazer qualquer outra requisição
             api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
-            // Agora busca dados completos com token já configurado
             const fullUserResponse = await api.get<{ data: IUser }>(`/users/${user.id}`);
             const fullUser = fullUserResponse.data.data;
 
