@@ -9,7 +9,7 @@ interface TweetCardProps {
 }
 
 export function TweetCard({ tweet }: Readonly<TweetCardProps>) {
-    const { like, removeLike, removeTweet, reply, refreshFeed, removeReply } = useTweet();
+    const { like, removeLike, removeTweet, reply, refreshFeed, removeReply, editTweet } = useTweet();
     const { user } = useAuth();
 
     const repliesArray = Array.isArray(tweet.replies) ? tweet.replies : [];
@@ -26,6 +26,9 @@ export function TweetCard({ tweet }: Readonly<TweetCardProps>) {
     const [showReply, setShowReply] = useState(false);
     const [replyContent, setReplyContent] = useState("");
     const [isSendingReply, setIsSendingReply] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
+    const [editContent, setEditContent] = useState(tweet.content);
+    const [isSavingEdit, setIsSavingEdit] = useState(false);
 
     async function handleLike() {
         if (liked) {
@@ -78,6 +81,28 @@ export function TweetCard({ tweet }: Readonly<TweetCardProps>) {
         }
     }
 
+    async function handleSaveEdit() {
+        if (!editContent.trim() || isSavingEdit) return;
+        if (editContent === tweet.content) {
+            setIsEditing(false);
+            return;
+        }
+        try {
+            setIsSavingEdit(true);
+            await editTweet(tweet.id, { content: editContent });
+            setIsEditing(false);
+        } catch (error) {
+            console.log("Erro ao editar tweet", error);
+        } finally {
+            setIsSavingEdit(false);
+        }
+    }
+
+    function handleCancelEdit() {
+        setEditContent(tweet.content);
+        setIsEditing(false);
+    }
+
     return (
         <S.TweetCard>
             <S.TweetAvatar
@@ -89,7 +114,30 @@ export function TweetCard({ tweet }: Readonly<TweetCardProps>) {
                     <S.TweetUser>{tweet.author.name}</S.TweetUser>
                     <S.TweetHandle>@{tweet.author.username}</S.TweetHandle>
                 </S.TweetHeader>
-                <S.TweetText>{tweet.content}</S.TweetText>
+                {isEditing ? (
+                    <S.ReplyBox>
+                        <S.EditInput
+                            value={editContent}
+                            onChange={(e) => setEditContent(e.target.value)}
+                            maxLength={300}
+                            disabled={isSavingEdit}
+                        />
+                        <S.ReplyActions>
+                            <S.ReplyCount>{300 - editContent.length}</S.ReplyCount>
+                            <S.CancelButton onClick={handleCancelEdit} disabled={isSavingEdit}>
+                                Cancelar
+                            </S.CancelButton>
+                            <S.ReplyButton
+                                onClick={handleSaveEdit}
+                                disabled={!editContent.trim() || isSavingEdit}
+                            >
+                                {isSavingEdit ? "Salvando..." : "Salvar"}
+                            </S.ReplyButton>
+                        </S.ReplyActions>
+                    </S.ReplyBox>
+                ) : (
+                    <S.TweetText>{editContent}</S.TweetText>
+                )}
                 <S.TweetActions>
                     <S.ActionBtn onClick={() => setShowReply(!showReply)}>
                         💬 {repliesArray.length}
@@ -97,11 +145,16 @@ export function TweetCard({ tweet }: Readonly<TweetCardProps>) {
                     <S.ActionBtn onClick={handleLike}>
                         {liked ? "❤️" : "🤍"} {likesCount}
                     </S.ActionBtn>
-                    {isOwner && (
+                {isOwner && (
+                    <>
+                        <S.ActionBtn onClick={() => setIsEditing(true)} disabled={isEditing}>
+                            ✏️
+                        </S.ActionBtn>
                         <S.ActionBtn onClick={handleDelete} disabled={isDeleting}>
                             {isDeleting ? "⏳" : "🗑️"}
                         </S.ActionBtn>
-                    )}
+                    </>
+                )}
                 </S.TweetActions>
 
                 {showReply && (

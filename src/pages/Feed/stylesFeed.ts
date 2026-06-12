@@ -175,3 +175,28 @@ export const ReplyHeader = styled.div`
     align-items: center;
     gap: 6px;
 `;
+
+export const EditInput = styled.textarea`
+    width: 100%;
+    min-height: 60px;
+    border: 1px solid ${({ theme }) => theme.border};
+    border-radius: 8px;
+    outline: none;
+    background: ${({ theme }) => theme.backgroundSecondary};
+    font-size: 15px;
+    resize: none;
+    font-family: inherit;
+    color: ${({ theme }) => theme.text};
+    padding: 8px;
+
+    &::placeholder { color: ${({ theme }) => theme.textSecondary}; }
+    &:disabled { opacity: 0.6; }
+`;
+
+export const CancelButton = styled(ReplyButton)`
+    background: transparent;
+    color: ${({ theme }) => theme.textSecondary};
+    border: 1px solid ${({ theme }) => theme.border};
+
+    &:hover { background: ${({ theme }) => theme.hoverBackground}; }
+`;
