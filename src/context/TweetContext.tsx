@@ -22,6 +22,7 @@ interface ITweetContextData {
     isLoading: boolean;
     createTweet: (data: INewTweet) => Promise<void>;
     removeTweet: (data: ITweetId) => Promise<void>;
+    removeReply: (data: ITweetId) => Promise<void>;
     editTweet: (tweetId: string, data: INewTweet) => Promise<void>;
     getTweetById: (data: ITweetId) => Promise<IGetTweetResponse>;
     getUserTweets: (userId: string) => Promise<IGetTweetResponse[]>;
@@ -126,6 +127,17 @@ export function TweetProvider({ children }: Readonly<TweetProviderProps>) {
         }
     }, []);
 
+    const removeReply = useCallback(async (data: ITweetId) => {
+        try {
+            await delTweet(data);
+            const combined = await fetchFeed();
+            setTweets(combined);
+        }catch (error) {
+            console.log("Erro ao deletar reply", error);
+            throw error;
+        }
+    }, [fetchFeed]);
+
     const editTweet = useCallback(async (tweetId: string, data: INewTweet) => {
         try {
             const updated = await updateTweet(tweetId, data);
@@ -195,6 +207,7 @@ export function TweetProvider({ children }: Readonly<TweetProviderProps>) {
         isLoading,
         createTweet,
         removeTweet,
+        removeReply,
         editTweet,
         getTweetById,
         getUserTweets,
@@ -202,7 +215,7 @@ export function TweetProvider({ children }: Readonly<TweetProviderProps>) {
         like,
         removeLike,
         refreshFeed,
-    }), [tweets, isLoading, createTweet, removeTweet, editTweet, getTweetById, getUserTweets, reply, like, removeLike, refreshFeed]);
+    }), [tweets, isLoading, createTweet, removeTweet, removeReply, editTweet, getTweetById, getUserTweets, reply, like, removeLike, refreshFeed]);
 
     return (
         <TweetContext.Provider value={value}>

@@ -11,21 +11,19 @@ interface IAuthContextData {
     signOut: () => Promise<void>;
     signUp: (dadosUser: IAuthRegister) => Promise<void>;
     isLoading: boolean;
-}
-
-
+};
 interface AuthProviderProps {
     children: ReactNode;
-}
+};
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const AuthContextData = createContext<IAuthContextData>({} as IAuthContextData);
 
 
-export function AuthProvider({ children }: Readonly<AuthProviderProps>) {
+export function AuthProvider ({ children }: Readonly<AuthProviderProps>) {
 
-    const [user, setUser] = useState<IUser | null>(null);
-    const [token, setToken] = useState<string | null>(null);
+    const [user, setUser] = useState<IUser | null> (null);
+    const [token, setToken] = useState<string | null> (null);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
@@ -42,7 +40,8 @@ export function AuthProvider({ children }: Readonly<AuthProviderProps>) {
         setIsLoading(false);
     },[]);
 
-    async function signIn(dadosUser: IAuthLogin) {
+    async function signIn (dadosUser: IAuthLogin) {
+
         try {
             const response = await login(dadosUser);
             const user = response.data?.authUser;
@@ -68,7 +67,8 @@ export function AuthProvider({ children }: Readonly<AuthProviderProps>) {
             console.log("Erro ao fazer login", error);
             throw error;
         }
-    }
+
+    };
 
     async function signUp (dadosUser: IAuthRegister) {
 
@@ -94,7 +94,7 @@ export function AuthProvider({ children }: Readonly<AuthProviderProps>) {
             throw error;
         }
 
-    }
+    };
 
 
     async function signOut () {
@@ -112,7 +112,7 @@ export function AuthProvider({ children }: Readonly<AuthProviderProps>) {
             throw error;
         }
 
-    }
+    };
 
 
     const value = useMemo(() => ({
@@ -131,4 +131,4 @@ export function AuthProvider({ children }: Readonly<AuthProviderProps>) {
         </AuthContextData.Provider>
     );
 
-}
+};

@@ -9,7 +9,7 @@ interface TweetCardProps {
 }
 
 export function TweetCard({ tweet }: Readonly<TweetCardProps>) {
-    const { like, removeLike, removeTweet, reply, refreshFeed } = useTweet();
+    const { like, removeLike, removeTweet, reply, refreshFeed, removeReply } = useTweet();
     const { user } = useAuth();
 
     const repliesArray = Array.isArray(tweet.replies) ? tweet.replies : [];
@@ -22,6 +22,7 @@ export function TweetCard({ tweet }: Readonly<TweetCardProps>) {
     const isOwner = tweet.author?.id === user?.id;
 
     const [isDeleting, setIsDeleting] = useState(false);
+    const [deletingReplyId, setDeletingReplyId] = useState<string | null>(null);
     const [showReply, setShowReply] = useState(false);
     const [replyContent, setReplyContent] = useState("");
     const [isSendingReply, setIsSendingReply] = useState(false);
@@ -62,6 +63,18 @@ export function TweetCard({ tweet }: Readonly<TweetCardProps>) {
             console.log("Erro ao comentar", error);
         } finally {
             setIsSendingReply(false);
+        }
+    }
+
+    async function handleDeleteReply(replyId:string) {
+        if (deletingReplyId) return;
+        try {
+            setDeletingReplyId(replyId);
+            await removeReply({ tweetId: replyId });
+        } catch (error) {
+            console.log("Erro ao deletar reply", error);
+        } finally {
+            setDeletingReplyId(null);
         }
     }
 
@@ -124,6 +137,14 @@ export function TweetCard({ tweet }: Readonly<TweetCardProps>) {
                                     <S.ReplyHeader>
                                         <S.TweetUser>{r.author?.name}</S.TweetUser>
                                         <S.TweetHandle>@{r.author?.username}</S.TweetHandle>
+                                        {r.author?.id === user?.id && (
+                                        <S.ActionBtn
+                                            onClick={() => handleDeleteReply(r.id)}
+                                            disabled={deletingReplyId === r.id}
+                                        >
+                                            {deletingReplyId === r.id ? "⏳" : "🗑️"}
+                                        </S.ActionBtn>
+                                    )}
                                     </S.ReplyHeader>
                                     <S.TweetText>{r.content}</S.TweetText>
                                 </S.ReplyContent>

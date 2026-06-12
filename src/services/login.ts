@@ -11,7 +11,7 @@ import { api } from "./api";
 export async function login (dadosUser: IAuthLogin): Promise<IAuthLoginResponse> {
     try {
 
-        const responseDados = await api.post("/auth/login", dadosUser);
+        const responseDados = await api.post<IAuthLoginResponse>("/auth/login", dadosUser);
         return responseDados.data;
 
     } catch (error){

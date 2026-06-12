@@ -7,16 +7,19 @@ import { Loading } from "../../components/Loading/Loading.tsx";
 export interface LoginProps {
     username: string;
     password: string;
-}
+};
 
 export function Login() {
+
     const [formData, setFormData] = useState<LoginProps>({
         username: "",
         password: "",
-    })
+    });
+
     const [isLoading, setIsLoading] = useState(false);
 
     const navigate = useNavigate();
+    
     const { signIn } = useAuth();
 
     const handleLogin = async () => {
@@ -33,7 +36,8 @@ export function Login() {
         } finally {
             setIsLoading(false);
         }
-    }
+
+    };
 
     return (
         <S.PageWrapper>

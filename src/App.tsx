@@ -8,6 +8,7 @@ import { GlobalStyle } from "./styles/globalStyles.ts";
 import { lightTheme, darkTheme } from "./styles/themes.ts";
 
 function ThemedApp() {
+
     const { isDark } = useTheme();
     const theme = isDark ? darkTheme : lightTheme;
 
@@ -18,15 +19,17 @@ function ThemedApp() {
                 <RouterProvider router={routes} />
             </StyledThemeProvider>
         </AuthProvider>
-    );
-}
+    )
+};
 
 export function App() {
+
     return (
         <AuthProvider>
             <ThemeProvider>
                 <ThemedApp />
             </ThemeProvider>
         </AuthProvider>
-    );
-}
+    )
+
+};
